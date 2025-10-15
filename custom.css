@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .donate-box .donate-card .qr-code-image {
     border: unset !important;
 }
