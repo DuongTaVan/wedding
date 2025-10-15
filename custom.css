@@ -1,3 +1,10 @@
 .donate-box .donate-card .qr-code-image {
     border: unset !important;
 }
+
+.validate-rsvp-form #success {
+    background-color: green;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    padding: 11px 20px;
+}
