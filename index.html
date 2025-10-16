@@ -1011,7 +1011,7 @@
             return;
         }
 
-        if (!content) {
+        if (!content || content.length < 10) {
             return;
         }
         document.getElementById('success').style.display = 'block';
