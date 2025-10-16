@@ -234,7 +234,7 @@ var snowFall = (function () {
 SNOW_Picture = biicore.webroot + '/common/imgs/heart.png';
 special_custom = ['646f6e3d778825e6f306667f', '64a04f6beb89a210fc07656a'];
 window.onload = function () {
-    const effects = ['heart', 'snow', 'custom'];
+    const effects = ['heart', 'snow', 'custom', 'custom1', 'custom2'];
     const randomEffect = effects[Math.floor(Math.random() * effects.length)];
     biicore.effect.type = randomEffect;
     setTimeout(function () {
@@ -285,6 +285,42 @@ window.onload = function () {
             }
             snowFall.snow(document.getElementsByTagName('body')[0], {
                 'image': 'https://cdn.biihappy.com/ziiweb/wedding-snows/14.png',
+                'minSize': 15,
+                'maxSize': 32,
+                'flakeCount': flakeCount,
+                'maxSpeed': 3,
+                'minSpeed': 1
+            });
+        }
+        else if (biicore.effect.type == 'custom1') {
+            let flakeCount = 30;
+            if (typeof biicore.template_id !== 'undefined' &&
+                special_custom.includes(biicore.template_id)) {
+                flakeCount = 5;
+                if (window.innerWidth <= 650) {
+                    flakeCount = 3;
+                }
+            }
+            snowFall.snow(document.getElementsByTagName('body')[0], {
+                'image': 'https://cdn.biihappy.com/ziiweb/wedding-snows/30.png',
+                'minSize': 15,
+                'maxSize': 32,
+                'flakeCount': flakeCount,
+                'maxSpeed': 3,
+                'minSpeed': 1
+            });
+        }
+        else {
+            let flakeCount = 30;
+            if (typeof biicore.template_id !== 'undefined' &&
+                special_custom.includes(biicore.template_id)) {
+                flakeCount = 5;
+                if (window.innerWidth <= 650) {
+                    flakeCount = 3;
+                }
+            }
+            snowFall.snow(document.getElementsByTagName('body')[0], {
+                'image': 'https://cdn.biihappy.com/ziiweb/wedding-snows/4.png',
                 'minSize': 15,
                 'maxSize': 32,
                 'flakeCount': flakeCount,
