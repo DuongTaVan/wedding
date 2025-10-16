@@ -610,12 +610,9 @@
             <div class="row" style="display: flex;justify-content: center;flex-wrap: wrap;">
                 <div class="col col-lg-6 col-md-6">
                     <div class="contact-form">
-                        <form id="wish-form" class="form validate-rsvp-form row" method="post">
-                            <div class="col col-sm-6">
+                        <form id="wish-form" class="form validate-rsvp-form row" method="post" onSubmit="sendMessage()">
+                            <div class="col col-sm-12">
                                 <input id="nickName" type="text" name="name" class="form-control" placeholder="Nhập họ tên*">
-                            </div>
-                            <div class="col col-sm-6">
-                                <input type="email" name="email" class="form-control" placeholder="Nhập email">
                             </div>
                             <div class="col col-sm-12">
                                 <div class="textarea-emoji-picker">
@@ -631,7 +628,7 @@
                                 </div>
                             </div>
                             <div class="col col-sm-12 submit-btn">
-                                <button type="submit" class="theme-btn" onclick="sendMessage()">Gửi lời chúc</button>
+                                <button type="submit" class="theme-btn">Gửi lời chúc</button>
                                 <div id="loader">
                                     <i class="ti-reload"></i>
                                 </div>
@@ -1001,16 +998,25 @@
 <!--<script src="https://thanh-hue.iwedding.info/common/emoji-picker/js/insertTextAtCursor.js?v=202506122"></script>-->
 <!--<script type="module" src="https://thanh-hue.iwedding.info/common/emoji-picker/js/init.js?v=202506122"></script>-->
 <script src="https://thanh-hue.iwedding.info/common/toastr/toastr.min.js?v=202506122"></script>
-<script src="/custom-script.js"></script>
+<script src="/custom-script.js?v=1.0.0"></script>
 <script type="text/javascript">
     if (typeof toastMessageWishes === 'function') {
         toastMessageWishes(dataWishes, 'wishes');
     }
     function sendMessage(){
-        let name = document.getElementById('nickName').value;
-        let content = document.getElementById('content').value;
+        const name = document.getElementById('nickName').value.trim();
+        const content = document.getElementById('content').value.trim();
+        // Validate dữ liệu
+        if (!name) {
+            return;
+        }
+
+        if (!content) {
+            return;
+        }
         document.getElementById('success').style.display = 'block';
         toastr.success(content, name);
+        // document.getElementById('wish-form').reset();
     }
 </script>
 </body>
