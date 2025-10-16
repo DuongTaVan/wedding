@@ -152,7 +152,8 @@
                         <div class="inner">
                             <div class="mini_calendar">
                                 <table>
-                                    <caption class="calendar-month"> October / 2025</caption>
+                                    <caption class="calendar-month"> November / 2025</caption>
+                                    <tbody>
                                     <tr>
                                         <th abbr="Sunday">Sun</th>
                                         <th abbr="Monday">Mon</th>
@@ -166,52 +167,56 @@
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
                                         <td>1</td>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <div id="today">2</div>
+                                        </td>
+                                        <td>3</td>
+                                        <td>4</td>
                                         <td>5</td>
                                         <td>6</td>
                                         <td>7</td>
                                         <td>8</td>
+                                    </tr>
+                                    <tr>
                                         <td>9</td>
                                         <td>10</td>
                                         <td>11</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div id="today">12</div>
-                                        </td>
+                                        <td>12</td>
                                         <td>13</td>
                                         <td>14</td>
                                         <td>15</td>
+                                    </tr>
+                                    <tr>
                                         <td>16</td>
                                         <td>17</td>
                                         <td>18</td>
-                                    </tr>
-                                    <tr>
                                         <td>19</td>
                                         <td>20</td>
                                         <td>21</td>
                                         <td>22</td>
+                                    </tr>
+                                    <tr>
                                         <td>23</td>
                                         <td>24</td>
                                         <td>25</td>
-                                    </tr>
-                                    <tr>
                                         <td>26</td>
                                         <td>27</td>
                                         <td>28</td>
                                         <td>29</td>
-                                        <td>30</td>
-                                        <td>31</td>
-                                        <td id="emptydays" colspan="1">&nbsp;</td>
                                     </tr>
+                                    <tr>
+                                        <td>30</td>
+                                        <td id="emptydays" colspan="6">&nbsp;</td>
+                                    </tr>
+                                    </tbody>
                                 </table>
                             </div>
-
                         </div>
                         <div class="count-down-clock">
                             <div id="clock" data-date="2025-11-02" data-text-day="Ngày" data-text-hour="Giờ"
@@ -612,7 +617,8 @@
                     <div class="contact-form">
                         <form id="wish-form" class="form validate-rsvp-form row" method="post" onSubmit="sendMessage()">
                             <div class="col col-sm-12">
-                                <input id="nickName" type="text" name="name" class="form-control" placeholder="Nhập họ tên*">
+                                <input id="nickName" type="text" name="name" class="form-control"
+                                       placeholder="Nhập họ tên*">
                             </div>
                             <div class="col col-sm-12">
                                 <div class="textarea-emoji-picker">
@@ -1003,10 +1009,10 @@
     if (typeof toastMessageWishes === 'function') {
         toastMessageWishes(dataWishes, 'wishes');
     }
-    function sendMessage(){
+
+    function sendMessage() {
         const name = document.getElementById('nickName').value.trim();
         const content = document.getElementById('content').value.trim();
-        // Validate dữ liệu
         if (!name) {
             return;
         }

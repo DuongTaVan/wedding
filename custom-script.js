@@ -1,11 +1,11 @@
 if (!Date.now) {
-    Date.now = function() {
+    Date.now = function () {
         return new Date().getTime();
     };
 }
 
 // Polyfill requestAnimationFrame
-(function() {
+(function () {
     'use strict';
     var vendors = ['webkit', 'moz'];
     for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
@@ -18,10 +18,10 @@ if (!Date.now) {
     if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) ||
         !window.requestAnimationFrame || !window.cancelAnimationFrame) {
         var lastTime = 0;
-        window.requestAnimationFrame = function(callback) {
+        window.requestAnimationFrame = function (callback) {
             var now = Date.now();
             var nextTime = Math.max(lastTime + 16, now);
-            return setTimeout(function() {
+            return setTimeout(function () {
                 callback(lastTime = nextTime);
             }, nextTime - now);
         };
@@ -30,7 +30,7 @@ if (!Date.now) {
 }());
 
 // SnowFall effect
-var snowFall = (function() {
+var snowFall = (function () {
     function SnowFlakeManager() {
         var defaults = {
             flakeCount: 35,
@@ -54,7 +54,7 @@ var snowFall = (function() {
         var widthOffset = 0;
         var heightOffset = 0;
 
-        var extend = function(obj, ext) {
+        var extend = function (obj, ext) {
             for (var key in ext) {
                 if (obj.hasOwnProperty(key)) {
                     obj[key] = ext[key];
@@ -62,17 +62,17 @@ var snowFall = (function() {
             }
         };
 
-        var random = function(min, max) {
+        var random = function (min, max) {
             return Math.round(min + Math.random() * (max - min));
         };
 
-        var setStyle = function(el, styles) {
+        var setStyle = function (el, styles) {
             for (var key in styles) {
                 el.style[key] = styles[key] + (key == 'width' || key == 'height' ? 'px' : '');
             }
         };
 
-        var SnowFlake = function(parent, size, speed) {
+        var SnowFlake = function (parent, size, speed) {
             this.x = random(widthOffset, elementWidth - widthOffset);
             this.y = random(0, elementHeight);
             this.size = size;
@@ -128,7 +128,7 @@ var snowFall = (function() {
 
             this.element = flakeEl;
 
-            this.update = function() {
+            this.update = function () {
                 this.y += this.speed;
                 if (this.y > elementHeight - (this.size + 6)) {
                     this.reset();
@@ -143,7 +143,7 @@ var snowFall = (function() {
                 }
             };
 
-            this.reset = function() {
+            this.reset = function () {
                 this.y = 0;
                 this.x = random(widthOffset, elementWidth - widthOffset);
                 this.stepSize = random(1, 10) / 100;
@@ -154,17 +154,17 @@ var snowFall = (function() {
             };
         };
 
-        var animationLoop = function() {
+        var animationLoop = function () {
             for (var i = 0; i < flakes.length; i += 1) {
                 flakes[i].update();
             }
-            heightOffset = requestAnimationFrame(function() {
+            heightOffset = requestAnimationFrame(function () {
                 animationLoop();
             });
         };
 
         return {
-            'snow': function(el, options) {
+            'snow': function (el, options) {
                 extend(defaults, options);
                 element = el;
                 elementHeight = element.clientHeight;
@@ -175,7 +175,7 @@ var snowFall = (function() {
                     widthOffset = 25;
                 }
 
-                window.addEventListener('resize', function() {
+                window.addEventListener('resize', function () {
                     elementHeight = element.clientHeight;
                     elementWidth = element.offsetWidth;
                 }, false);
@@ -189,7 +189,7 @@ var snowFall = (function() {
                 }
                 animationLoop();
             },
-            'clear': function() {
+            'clear': function () {
                 var flakeElements = null;
                 flakeElements = element.getElementsByClassName ?
                     element.getElementsByClassName('snowfall-flakes') :
@@ -206,7 +206,7 @@ var snowFall = (function() {
     }
 
     return {
-        'snow': function(elements, options) {
+        'snow': function (elements, options) {
             if ('string' == typeof options) {
                 if (elements.length > 0) {
                     for (var i = 0; i < elements.length; i++) {
@@ -233,10 +233,11 @@ var snowFall = (function() {
 // Cấu hình hiệu ứng tuyết
 SNOW_Picture = biicore.webroot + '/common/imgs/heart.png';
 special_custom = ['646f6e3d778825e6f306667f', '64a04f6beb89a210fc07656a'];
-window.onload = function() {
-    if (biicore.effect.type == 'none') return false;
-
-    setTimeout(function() {
+window.onload = function () {
+    const effects = ['heart', 'snow', 'custom'];
+    const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+    biicore.effect.type = randomEffect;
+    setTimeout(function () {
         if (biicore.effect.type == 'heart') {
             let flakeCount = 30;
             if (typeof biicore.template_id !== 'undefined' &&
@@ -274,17 +275,21 @@ window.onload = function() {
                 'maxSize': 8
             });
         } else if (biicore.effect.type == 'custom') {
-            let customSettings = biicore.effect.setting;
-            let minSpeed = parseInt(customSettings.speed) - 3;
-            if (minSpeed <= 0) minSpeed = 1;
-
+            let flakeCount = 30;
+            if (typeof biicore.template_id !== 'undefined' &&
+                special_custom.includes(biicore.template_id)) {
+                flakeCount = 5;
+                if (window.innerWidth <= 650) {
+                    flakeCount = 3;
+                }
+            }
             snowFall.snow(document.getElementsByTagName('body')[0], {
-                'image': customSettings.icon,
-                'minSize': customSettings.minSize,
-                'maxSize': customSettings.maxSize,
-                'flakeCount': customSettings.number,
-                'maxSpeed': customSettings.speed,
-                'minSpeed': minSpeed
+                'image': 'https://cdn.biihappy.com/ziiweb/wedding-snows/14.png',
+                'minSize': 15,
+                'maxSize': 32,
+                'flakeCount': flakeCount,
+                'maxSpeed': 3,
+                'minSpeed': 1
             });
         }
     }, 300);
@@ -297,8 +302,8 @@ window.onload = function() {
     }
 
     // Xử lý click vào wish suggestions
-    showContentWishSuggestions.forEach(function(element) {
-        element.addEventListener('click', function(e) {
+    showContentWishSuggestions.forEach(function (element) {
+        element.addEventListener('click', function (e) {
             e.preventDefault();
             let content = this.textContent || this.innerText;
             document.getElementById('content').value = content;
@@ -306,12 +311,12 @@ window.onload = function() {
     });
 
     // Chặn context menu
-    document.addEventListener('contextmenu', function(e) {
+    document.addEventListener('contextmenu', function (e) {
         e.preventDefault();
     });
 
     // Chặn F12
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.keyCode === 123) {
             e.preventDefault();
         }
@@ -320,15 +325,16 @@ window.onload = function() {
     // Chặn kéo thả hình ảnh
     function preventImageDrag() {
         document.querySelectorAll('img').forEach(img => {
-            img.addEventListener('dragstart', function(e) {
+            img.addEventListener('dragstart', function (e) {
                 e.preventDefault();
             });
         });
     }
+
     preventImageDrag();
 
-    document.querySelectorAll('.btn-see-more-gallery').forEach(function(btn) {
-        btn.addEventListener('click', function() {
+    document.querySelectorAll('.btn-see-more-gallery').forEach(function (btn) {
+        btn.addEventListener('click', function () {
             setTimeout(preventImageDrag, 200);
         });
     });
@@ -375,7 +381,7 @@ if (biicore.alert && Object.keys(biicore.alert).length > 0 && biicore.alert.stat
         '<a href="$1" target="_blank">$1</a>'
     );
 
-    setTimeout(function() {
+    setTimeout(function () {
         Swal.fire({
             'title': biicore.alert.title,
             'html': biicore.alert.content,
@@ -395,7 +401,7 @@ if (biicore.bgMusic) {
     var audioPlayer = document.createElement('AUDIO');
     audioPlayer.style.display = 'none';
 
-    setTimeout(function() {
+    setTimeout(function () {
         if (audioPlayer.canPlayType('audio/mpeg')) {
             audioPlayer.setAttribute('src', biicore.bgMusic);
             document.getElementsByClassName('bii-player')[0].style.display = 'block';
@@ -409,12 +415,12 @@ if (biicore.bgMusic) {
         document.body.appendChild(audioPlayer);
     }, 1000);
 
-    var myInterval = setInterval(function() {
+    var myInterval = setInterval(function () {
         if (document.querySelector('.bii-player-secondary, .playerIcon')) {
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementsByClassName('bii-player')[0].classList.add('show-sec');
             }, 2000);
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementsByClassName('bii-player')[0].classList.remove('show-sec');
             }, 7000);
             clearInterval(myInterval);
@@ -446,6 +452,7 @@ if (biicore.bgMusic) {
                 document.body.addEventListener('click', handleClickAutoPlay, true);
             }
         }
+
         document.body.addEventListener('click', handleClickAutoPlay, true);
     }
 
@@ -516,16 +523,16 @@ if (biicore.bgMusic) {
 
 // Hiển thị logo Biihappy nếu không phải premium
 if (!biicore.isPremium && !biicore.templatePremium) {
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementsByClassName('bii-logo')[0].classList.add('show-sec');
     }, 8000);
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementsByClassName('bii-logo')[0].classList.remove('show-sec');
     }, 11000);
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementsByClassName('bii-logo')[0].classList.add('show-sec');
     }, 25000);
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementsByClassName('bii-logo')[0].classList.remove('show-sec');
     }, 28000);
 
@@ -566,7 +573,7 @@ var showButtonWishSuggestions = document.querySelector('.show-autocomplete');
 var hideButtonWishSuggestions = document.querySelector('.hide-autocomplete');
 var showContentWishSuggestions = document.querySelectorAll('.showContent');
 
-var toggleDisplayWishesAutocomplete = function(checkDisplay = false) {
+var toggleDisplayWishesAutocomplete = function (checkDisplay = false) {
     let content = document.querySelector('.wishes-autocomplete-content');
     let isHidden = showButtonWishSuggestions.style.display === 'none';
 
@@ -578,20 +585,20 @@ var toggleDisplayWishesAutocomplete = function(checkDisplay = false) {
 };
 
 if (showButtonWishSuggestions && hideButtonWishSuggestions) {
-    showButtonWishSuggestions.addEventListener('click', function() {
+    showButtonWishSuggestions.addEventListener('click', function () {
         toggleDisplayWishesAutocomplete(false);
     });
 
-    hideButtonWishSuggestions.addEventListener('click', function() {
+    hideButtonWishSuggestions.addEventListener('click', function () {
         toggleDisplayWishesAutocomplete(false);
     });
 
-    document.body.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function (e) {
         if (e.target === document.body ||
             (!showButtonWishSuggestions.contains(e.target) &&
                 !hideButtonWishSuggestions.contains(e.target) &&
                 !document.getElementById('searchWishSuggestions').contains(e.target) &&
-                !Array.from(showContentWishSuggestions).some(function(el) {
+                !Array.from(showContentWishSuggestions).some(function (el) {
                     return el.contains(e.target);
                 }))) {
             toggleDisplayWishesAutocomplete(true);
@@ -641,7 +648,7 @@ function removeVietnameseTones(str) {
 // Hàm hiển thị toast message cho wishes
 function toastMessageWishes(messages = null, scrollTarget = null) {
     if (Array.isArray(messages) && messages.length > 0) {
-        $(document).on('click', '.toast-success', function() {
+        $(document).on('click', '.toast-success', function () {
             if (scrollTarget) {
                 $('html,body').animate({
                     'scrollTop': $('#' + scrollTarget).offset().top
