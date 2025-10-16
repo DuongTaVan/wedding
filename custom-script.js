@@ -306,16 +306,16 @@ window.onload = function() {
     });
 
     // Chặn context menu
-    // document.addEventListener('contextmenu', function(e) {
-    //     e.preventDefault();
-    // });
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
 
     // Chặn F12
-    // document.addEventListener('keydown', function(e) {
-    //     if (e.keyCode === 123) {
-    //         e.preventDefault();
-    //     }
-    // });
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 123) {
+            e.preventDefault();
+        }
+    });
 
     // Chặn kéo thả hình ảnh
     function preventImageDrag() {
